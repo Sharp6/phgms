@@ -6,14 +6,17 @@ var phgms_sentinel = require('../phgms_sentinel');
 var logger = require('../logger');
 var phgms_db = require('../phgms_db');
 
-var gms = new phgms_core({
-	moment: require('moment')
-});
 
 var db = new phgms_db({
 	r: require('rethinkdb')
 }, {
-	dbName: "phgms"
+	dbName: "phgms",
+	tableName: "stateChanges"
+});
+
+var gms = new phgms_core({
+	moment: require('moment'),
+	db: db
 });
 
 var sentinel = new phgms_sentinel({
