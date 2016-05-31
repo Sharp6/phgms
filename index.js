@@ -4,16 +4,25 @@ var phgms_core = require('../phgms_core');
 var mqtt_adapter = require('../phgms_mqttAdapter');
 var phgms_sentinel = require('../phgms_sentinel');
 var logger = require('../phgms_logger');
+var phgms_db = require('../phgms_db');
 
-var gms = new phgms_core({
-	moment: require('moment')
+
+var db = new phgms_db({
+	r: require('rethinkdb')
+}, {
+	dbName: "phgms",
+	tableName: "stateChanges"
 });
 
-var sentinel = new phgms_sentinel(
-	{
-		moment: require('moment'),
-		logger: logger
-	}, gms);
+var gms = new phgms_core({
+	moment: require('moment'),
+	db: db
+});
+
+var sentinel = new phgms_sentinel({
+	moment: require('moment'),
+	logger: logger
+}, gms);
 
 var adapter = new mqtt_adapter(
 	{
