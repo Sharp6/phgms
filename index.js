@@ -1,9 +1,9 @@
 "use strict";
 
 var phgms_core = require('../phgms_core');
-var mqtt_adapter = require('../mqtt_adapter');
+var mqtt_adapter = require('../phgms_mqttAdapter');
 var phgms_sentinel = require('../phgms_sentinel');
-var logger = require('../logger');
+var logger = require('../phgms_logger');
 
 var gms = new phgms_core({
 	moment: require('moment')
@@ -26,7 +26,7 @@ var adapter = new mqtt_adapter(
 	}
 );
 
-var rest_api = require('../phgms_rest_api/app')(gms);
+var rest_api = require('../phgms_restApi/app')(gms);
 rest_api.set('port', process.env.PORT || 3000);
 
 var server = rest_api.listen(rest_api.get('port'), function() {
